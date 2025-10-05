@@ -1,0 +1,13 @@
+[Unit]
+Description=Enable Hello World (Node) after reboot
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/node /home/xotchil/Documents/node-helloworld/helloworld.js
+Restart=always
+User=xotchil
+Environment=PORT=3000
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,17 @@
+[Unit]
+Description=Update Node.js project from Deploy branch and start service
+After=network.target
+Wants=nodehello.service
+
+[Service]
+Type=oneshot
+User=jp113
+WorkingDirectory=/home/jp113/Documentos/node-helloworld/Laboratorio-de-Servicios
+ExecStartPre=/usr/bin/git fetch origin deploy
+ExecStartPre=/usr/bin/bash -c 'LOCAL=$(git rev-parse deploy); REMOTE=$(git rev-parse origin/deploy); if [ "$LOCAL" != "$REMOTE" ]; then git reset --hard && git pull origin deploy && echo "Repositorio actualizado"; else echo "Sin cambios en deploy"; fi'
+ExecStart=/bin/systemctl start nodehello.service
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+
